@@ -1,18 +1,24 @@
 {
-	"name": "esp-library-template",
-	"keywords": "template, library, esp32",
-	"description": "Template Library for ESP32",
-	"homepage": "https://github.com/reds6188/esp-library-template.git",
+	"name": "esp-mqtt-client",
+	"keywords": "mqtt, client, esp32",
+	"description": "MQTT Client for ESP32",
+	"homepage": "https://github.com/reds6188/esp-mqtt-client.git",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/reds6188/esp-library-template.git"
+		"url": "https://github.com/reds6188/esp-mqtt-client.git"
 	},
 	"authors": {
 		"name": "Daniele Rossi",
 		"email": "reds6188@gmail.com",
 		"maintainer": true
 	},
-	"version": "0.0.0",
+	"version": "1.0.0-beta",
 	"frameworks": "arduino",
-	"platforms": "espressif32"
+	"platforms": "espressif32",
+	"dependencies": [
+		{
+			"name": "esp-console",
+			"version": "https://github.com/reds6188/esp-console.git@1.0.0"
+		}
+	]
 }
