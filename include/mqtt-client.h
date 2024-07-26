@@ -4,16 +4,17 @@
 #include <Arduino.h>
 #include <mqtt_client.h>
 #include <console.h>
-#include "SPIFFS.h"
 
-#define MQTT_T      "MQTT"
+#define MQTT_T                      "MQTT"
+#define MQTT_BUFFER_SIZE			1280
+#define NUM_MAX_MQTT_TOPIC          8  
+#define TOPIC_LENGTH                100
 
-typedef struct {
-    char * ca_path;
-    char * certificate_path;
-    char * private_path;
-}cert_path_t;
-
-void initMqttClient(const char * client_id, cert_path_t cert);
+void initMqttClient(const char * broker_url, const char * client_id, const char * cacert_str, const char * cert_str, const char * prv_str);
+void startMqttClient(void);
+void mqttAddTopic(const char * topic);
+static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data);
+void onMqttConnect(void (*callback)(void));
+void onMqttData(void (*callback)(char * topic, char * data, int data_length));
 
 #endif  /* MQTT_CLIENT_H_ */
