@@ -7,23 +7,6 @@ bool mqtt_connected;
 void (*cbOnMqttConnect)(void);
 void (*cbOnMqttData)(char * topic, char * data, int data_length);
 
-char * getFileAsString(fs::FS &fs, String path) {
-	if(fs.exists(path)) {
-		File file = fs.open(path, FILE_READ);
-		if(!file) {
-			console.error(MQTT_T, "Failed to open " + path);
-			return NULL;
-		}
-		char* buffer = (char*)calloc(file.size() + 1, sizeof(char));
-		file.readBytes(buffer, file.size());
-		file.close();
-		return buffer;
-	}
-
-	console.error(MQTT_T, "File \"" + path + "\" does not exists!");
-	return NULL;
-}
-
 void initMqttClient(const char * broker_url, const char * client_id, const char * cacert_str, const char * cert_str, const char * prv_str) {
 	console.info(MQTT_T, "Client ID = " + String(client_id));
 
