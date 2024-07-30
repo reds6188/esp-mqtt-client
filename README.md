@@ -1,2 +1,2 @@
-# esp-library-template
-Template Library for ESP32
+# esp-mqtt-client
+MQTT Client Library for ESP32

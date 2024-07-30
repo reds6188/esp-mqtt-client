@@ -101,3 +101,16 @@ void onMqttConnect(void (*callback)(void)) {
 void onMqttData(void (*callback)(char * topic, char * data, int data_length)) {
 	cbOnMqttData = callback;
 }
+
+bool publishMqtt(const char * topic, String payload) {
+	//int result = esp_mqtt_client_publish(t5_mqtt_client, url, payload.c_str(), payload.length(), 1, 0);
+	int result = esp_mqtt_client_enqueue(t5_mqtt_client, topic, payload.c_str(), payload.length(), 1, 0, true);
+	console.info(MQTT_T, "Publishing...");
+	if(result == -2)
+		console.error(MQTT_T, "Outbox is full");
+	if(result >= 0)
+		console.success(MQTT_T, "Published on topic \"" + String(topic) + "\"");
+	else
+		console.error(MQTT_T, "Failed to publish on topic \"" + String(topic) + "\"");
+	return (result >= 0);
+}
