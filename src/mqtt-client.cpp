@@ -66,8 +66,10 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 					console.success(MQTT_T, "+++ Subscribe successfully done on topic \"" + String(topic_list[i]) + "\"");
 			}
 			
-			if(cbOnMqttConnect != NULL)
+			if(cbOnMqttConnect != nullptr)
 				cbOnMqttConnect();
+			else
+				console.warning(MQTT_T, "Connection handler is null");
 			break;
 		case MQTT_EVENT_ERROR:
 			console.error(MQTT_T, "EVENT - Error");
@@ -87,7 +89,10 @@ static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_
 				console.warning(MQTT_T, "Topic is NULL");
 			}
 			else {
-				cbOnMqttData(event->topic, event->data, event->data_len);
+				if(cbOnMqttData != nullptr)
+					cbOnMqttData(event->topic, event->data, event->data_len);
+				else
+					console.warning(MQTT_T, "Data handler is null");
 			}
 			break;
 		default:
