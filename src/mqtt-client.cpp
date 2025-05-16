@@ -4,6 +4,7 @@ esp_mqtt_client_handle_t t5_mqtt_client;
 char topic_list[NUM_MAX_MQTT_TOPIC][TOPIC_LENGTH];
 int8_t topic_index = -1;
 bool mqtt_connected;
+bool mqtt_started;
 void (*cbOnMqttConnect)(void);
 void (*cbOnMqttData)(char * topic, char * data, int data_length);
 
@@ -27,15 +28,36 @@ void initMqttClient(const char * broker_url, const char * client_id, const char 
 	console.success(MQTT_T, "Client created");
 
 	esp_mqtt_client_register_event(t5_mqtt_client, MQTT_EVENT_ANY, mqtt_event_handler, nullptr);
-	startMqttClient();
+	//startMqttClient();
 }
 
 void startMqttClient(void) {
 	esp_err_t err = esp_mqtt_client_start(t5_mqtt_client);
 	if(err)
 		console.error(MQTT_T, "Error while starting MQTT client :" + String(err));
-	else
+	else {
 		console.success(MQTT_T, "Client started");
+		mqtt_started = true;
+	}
+}
+
+void stopMqttClient(void) {
+	esp_err_t err = esp_mqtt_client_stop(t5_mqtt_client);
+	if(err)
+		console.error(MQTT_T, "Error while stopping MQTT client :" + String(err));
+	else {
+		console.warning(MQTT_T, "Client stopped");
+		mqtt_started = false;
+		mqtt_connected = false;
+	}
+}
+
+bool isMqttConnected(void) {
+	return mqtt_connected;
+}
+
+bool isMqttStarted(void) {
+	return mqtt_started;
 }
 
 void mqttAddTopic(const char * topic) {

@@ -12,6 +12,9 @@
 
 void initMqttClient(const char * broker_url, const char * client_id, const char * cacert_str, const char * cert_str, const char * prv_str);
 void startMqttClient(void);
+void stopMqttClient(void);
+bool isMqttConnected(void);
+bool isMqttStarted(void);
 void mqttAddTopic(const char * topic);
 static void mqtt_event_handler(void *handler_args, esp_event_base_t base, int32_t event_id, void *event_data);
 void onMqttConnect(void (*callback)(void));
